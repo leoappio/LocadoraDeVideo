@@ -20,4 +20,8 @@ public class ReportsMenu {
             }
         }
     }
+
+    public static void collectionBalance(){
+
+    }
 }
