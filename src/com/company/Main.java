@@ -1,15 +1,11 @@
 package com.company;
 
-import Menus.ClientMenu;
-import Menus.LocationMenu;
-import Menus.MovieMenu;
-import Menus.ReportsMenu;
-import com.company.database.Database;
-import com.company.models.Client;
-import com.company.models.VideoRentalShop;
+import com.company.Menus.ClientMenu;
+import com.company.Menus.LocationMenu;
+import com.company.Menus.MovieMenu;
+import com.company.Menus.ReportsMenu;
 import com.company.screen.Screen;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import java.sql.SQLException;

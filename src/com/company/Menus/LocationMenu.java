@@ -1,4 +1,4 @@
-package Menus;
+package com.company.Menus;
 
 import com.company.models.Client;
 import com.company.models.Movie;
