@@ -36,5 +36,12 @@ public class Movie {
         this.quantity = quantity;
     }
 
+    public void increaseQuantity(){
+        this.quantity++;
+    }
+
+    public void decreaseQuantity(){
+        this.quantity--;
+    }
 }
 

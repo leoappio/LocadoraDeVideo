@@ -47,7 +47,7 @@ public class Screen {
         showHeader();
         System.out.println("[1] - Locação");
         System.out.println("[2] - Devolução");
-        System.out.println("[0] - Retornar");
+        System.out.println("[3] - Retornar");
     }
     public static void showReportsMenu(){
         showHeader();

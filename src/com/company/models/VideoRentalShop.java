@@ -40,7 +40,8 @@ public class VideoRentalShop {
         return null;
     }
 
-    public Movie getMovieById(int id){
+    public Movie getMovieById(int id) throws SQLException {
+        this.attMovieList();
         for(int i = 0; i< this.movies.size();i++){
             if(this.movies.get(i).id == id){
                 return movies.get(i);

@@ -1,5 +1,6 @@
 package com.company.database;
 import com.company.models.Client;
+import com.company.models.Location;
 import com.company.models.Movie;
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class Database {
     }
     public static void insertMovie(Movie movie) throws SQLException {
         String sqlQuery = "INSERT INTO MOVIE(TITLE, TYPE, QUANTITY) VALUES ('"+movie.title+"','"+movie.type+"','"+movie.quantity+"')";
+        statement.execute(sqlQuery);
+    }
+    public static void insertLocation(Location location) throws SQLException {
+        String sqlQuery = "INSERT INTO LOCATION(CLIENT_ID, MOVIE_ID, LATEDAYS, RETURNED) VALUES ('"+location.clientId+"','"+location.movieId+"','"+location.lateDays+"','"+location.returned+"')";
         statement.execute(sqlQuery);
     }
 
@@ -67,6 +72,67 @@ public class Database {
         return movies;
     }
 
+    public static Movie selectMovieById(int movieId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM MOVIE WHERE ID = "+movieId);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            String title = resultSet.getString("TITLE");
+            Integer type = resultSet.getInt("TYPE");
+            Integer quantity = resultSet.getInt("QUANTITY");
+
+            return new Movie(id,title,type,quantity);
+        }
+        return null;
+    }
+
+    public static Location getLocationByClientAndMovieId(int client_id, int movie_id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM LOCATION WHERE CLIENT_ID = "+client_id+" AND MOVIE_ID = "+movie_id);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            Integer clientId = resultSet.getInt("CLIENT_ID");
+            Integer movieId = resultSet.getInt("MOVIE_ID");
+            Integer lateDays = resultSet.getInt("LATEDAYS");
+            String returned = resultSet.getString("RETURNED");
+            return new Location(id,clientId,movieId,lateDays,returned);
+        }
+        return null;
+    }
+
+    public static Location getActualLocationByClientAndMovieId(int client_id, int movie_id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM LOCATION WHERE CLIENT_ID = '"+client_id+"' AND MOVIE_ID = "+movie_id);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            Integer clientId = resultSet.getInt("CLIENT_ID");
+            Integer movieId = resultSet.getInt("MOVIE_ID");
+            Integer lateDays = resultSet.getInt("LATEDAYS");
+            String returned = resultSet.getString("RETURNED");
+
+            if(returned.equals("no")){
+                return new Location(id,clientId,movieId,lateDays,returned);
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Movie> getMoviesFromClientId(int clientId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM LOCATION WHERE CLIENT_ID = "+clientId);
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        while (resultSet.next()){
+            Integer movieId = resultSet.getInt("MOVIE_ID");
+            String returned = resultSet.getString("RETURNED");
+            if(returned.equals("no")){
+                Movie movie = selectMovieById(movieId);
+                movies.add(movie);
+            }
+        }
+        return movies;
+    }
+
     public static void deleteClient(int id) throws SQLException {
         String sqlQuery = "DELETE FROM CLIENT WHERE ID = "+id;
         statement.execute(sqlQuery);
@@ -84,6 +150,11 @@ public class Database {
 
     public static void updateMovie(Movie movie) throws SQLException {
         String sqlQuery = "UPDATE MOVIE SET TITLE = '"+movie.title+"', TYPE = '"+movie.type+"', QUANTITY = '"+movie.quantity+"' WHERE ID = "+movie.id;
+        statement.execute(sqlQuery);
+    }
+
+    public static void updateLocation(Location location) throws SQLException {
+        String sqlQuery = "UPDATE LOCATION SET LATEDAYS  = '"+location.lateDays+"', RETURNED = '"+location.returned+"' WHERE ID = "+location.locationId;
         statement.execute(sqlQuery);
     }
 
