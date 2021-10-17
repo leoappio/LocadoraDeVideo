@@ -2,8 +2,10 @@ package com.company.models;
 
 import com.company.database.Database;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class VideoRentalShop {
     public ArrayList<Client> clients;
@@ -75,6 +77,15 @@ public class VideoRentalShop {
         return total;
     }
 
+    public int getTotalLocationsByMovieId(int movieId) throws SQLException {
+        int locations = Database.getTotalLocationsByMovieId(movieId);
+        return locations;
+    }
+    public int getTotalLocationsByClientId(int clientId) throws SQLException {
+        int locations = Database.getTotalLocationsByClientId(clientId);
+        return locations;
+    }
+
     public int getTotal48HoursMovies() throws SQLException {
         this.attMovieList();
         int total = 0;
@@ -91,5 +102,14 @@ public class VideoRentalShop {
         return average;
     }
 
+    public ArrayList<Movie> getTop10Movies() throws SQLException {
+        ArrayList<Movie> movies = Database.getTop10Movies();
+        return movies;
+    }
+
+    public ArrayList<Client> getTop10Clients() throws SQLException {
+        ArrayList<Client> clients = Database.getTop10Clients();
+        return clients;
+    }
 
 }

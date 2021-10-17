@@ -2,8 +2,8 @@ package com.company.screen;
 
 import java.io.IOException;
 
+//classe que lida com os prints dos menus
 public class Screen {
-
     public static void clear(){
         for (int i = 0; i < 50; ++i)
             System.out.println();

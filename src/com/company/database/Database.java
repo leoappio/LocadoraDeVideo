@@ -79,25 +79,6 @@ public class Database {
         return movies;
     }
 
-    public static ArrayList<Location> getAllLocations() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM LOCATION");
-        ResultSet resultSet = statement.executeQuery();
-        ArrayList<Location> locations = new ArrayList<>();
-
-        while (resultSet.next()){
-            Integer id = resultSet.getInt("ID");
-            Integer clientId = resultSet.getInt("CLIENT_ID");
-            Integer movieId = resultSet.getInt("MOVIE_ID");
-            Integer lateDays = resultSet.getInt("LATEDAYS");
-            String returned = resultSet.getString("RETURNED");
-
-            Location location = new Location(id,clientId,movieId,lateDays,returned);
-            locations.add(location);
-        }
-
-        return locations;
-    }
-
     public static float getAverageLateDays() throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT LATEDAYS FROM LOCATION");
         ResultSet resultSet = statement.executeQuery();
@@ -127,6 +108,56 @@ public class Database {
             return new Movie(id,title,type,quantity);
         }
         return null;
+    }
+
+    public static int getTotalLocationsByMovieId(int movieId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT COUNT(ID) AS TOTAL FROM LOCATION WHERE MOVIE_ID ="+movieId);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.getInt("TOTAL");
+    }
+    public static int getTotalLocationsByClientId(int clientId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT COUNT(ID) AS TOTAL FROM LOCATION WHERE CLIENT_ID ="+clientId);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.getInt("TOTAL");
+    }
+
+    public static ArrayList<Movie> getTop10Movies() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT m.ID, m.TITLE, m.TYPE, m.QUANTITY, COUNT(l.MOVIE_ID) AS TOTAL FROM MOVIE m INNER JOIN LOCATION l ON m.ID = l.MOVIE_ID GROUP BY l.MOVIE_ID");
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            String title = resultSet.getString("TITLE");
+            Integer type = resultSet.getInt("TYPE");
+            Integer quantity = resultSet.getInt("QUANTITY");
+
+            if(movies.size() <= 10){
+                Movie movie = new Movie(id,title,type,quantity);
+                movies.add(movie);
+            }
+        }
+
+        return movies;
+    }
+
+    public static ArrayList<Client> getTop10Clients() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT c.ID, c.NAME, c.PHONE, COUNT(l.CLIENT_ID) AS TOTAL FROM CLIENT c INNER JOIN LOCATION l ON c.ID = l.CLIENT_ID GROUP BY l.CLIENT_ID");
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Client> clients = new ArrayList<>();
+
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            String name = resultSet.getString("NAME");
+            String phone = resultSet.getString("PHONE");
+
+            if(clients.size() <= 10){
+                Client client = new Client(id,name,phone);
+                clients.add(client);
+            }
+        }
+
+        return clients;
     }
 
     public static Location getLocationByClientAndMovieId(int client_id, int movie_id) throws SQLException {
