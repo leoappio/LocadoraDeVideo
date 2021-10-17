@@ -26,6 +26,20 @@ public class VideoRentalShop {
         return clients;
     }
 
+    public int getTotalClients() throws SQLException {
+        this.attClientList();
+        return clients.size();
+    }
+
+    public int getTotalMovies() throws SQLException {
+        this.attMovieList();
+        return movies.size();
+    }
+
+    public int getTotalLocations() throws SQLException {
+        return Database.getTotalLocations();
+    }
+
     public ArrayList<Movie> getMovies() throws SQLException {
         this.attMovieList();
         return movies;
@@ -48,6 +62,33 @@ public class VideoRentalShop {
             }
         }
         return null;
+    }
+
+    public int getTotal24HoursMovies() throws SQLException {
+        this.attMovieList();
+        int total = 0;
+        for(int i = 0; i< this.movies.size();i++){
+            if(this.movies.get(i).type == 1){
+                total++;
+            }
+        }
+        return total;
+    }
+
+    public int getTotal48HoursMovies() throws SQLException {
+        this.attMovieList();
+        int total = 0;
+        for(int i = 0; i< this.movies.size();i++){
+            if(this.movies.get(i).type == 2){
+                total++;
+            }
+        }
+        return total;
+    }
+
+    public float getAverageLate() throws SQLException {
+        float average = Database.getAverageLateDays();
+        return average;
     }
 
 

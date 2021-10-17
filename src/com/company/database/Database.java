@@ -54,6 +54,13 @@ public class Database {
         return clients;
     }
 
+    public static int getTotalLocations() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS TOTAL FROM LOCATION");
+        ResultSet resultSet = statement.executeQuery();
+
+        return resultSet.getInt("TOTAL");
+    }
+
     public static ArrayList<Movie> getAllMovies() throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM MOVIE");
         ResultSet resultSet = statement.executeQuery();
@@ -70,6 +77,42 @@ public class Database {
         }
 
         return movies;
+    }
+
+    public static ArrayList<Location> getAllLocations() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM LOCATION");
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Location> locations = new ArrayList<>();
+
+        while (resultSet.next()){
+            Integer id = resultSet.getInt("ID");
+            Integer clientId = resultSet.getInt("CLIENT_ID");
+            Integer movieId = resultSet.getInt("MOVIE_ID");
+            Integer lateDays = resultSet.getInt("LATEDAYS");
+            String returned = resultSet.getString("RETURNED");
+
+            Location location = new Location(id,clientId,movieId,lateDays,returned);
+            locations.add(location);
+        }
+
+        return locations;
+    }
+
+    public static float getAverageLateDays() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT LATEDAYS FROM LOCATION");
+        ResultSet resultSet = statement.executeQuery();
+        int totalLateDays = 0;
+        int totalLocations = 0;
+        float average = 0;
+
+        while (resultSet.next()){
+            Integer lateDays = resultSet.getInt("LATEDAYS");
+
+            totalLateDays += lateDays;
+            totalLocations++;
+        }
+        average = totalLateDays / totalLocations;
+        return average;
     }
 
     public static Movie selectMovieById(int movieId) throws SQLException {
