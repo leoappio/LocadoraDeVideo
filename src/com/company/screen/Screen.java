@@ -53,7 +53,7 @@ public class Screen {
         showHeader();
         System.out.println("[1] - Balanço do Acervo");
         System.out.println("[2] - Balanço de movimentações");
-        System.out.println("[0] - Retornar");
+        System.out.println("[3] - Retornar");
     }
 
 }

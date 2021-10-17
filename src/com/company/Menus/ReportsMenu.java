@@ -74,7 +74,7 @@ public class ReportsMenu {
         System.out.println("Filmes 24 Horas: "+ total24hMovies);
         System.out.println("Filmes 48 Horas: "+ total48hMovies);
         System.out.println("Média de locações por usuário: "+ averageLocations);
-        System.out.println("Média de tempo de atraso na devolução dos livros (em dias): "+ averageLateDays);
+        System.out.println("Média de tempo de atraso na devolução dos filmes (em dias): "+ averageLateDays);
 
         System.out.println();
         System.out.println("10 FILMES MAIS LOCADOS:");

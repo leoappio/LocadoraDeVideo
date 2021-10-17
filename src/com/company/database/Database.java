@@ -122,7 +122,7 @@ public class Database {
     }
 
     public static ArrayList<Movie> getTop10Movies() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT m.ID, m.TITLE, m.TYPE, m.QUANTITY, COUNT(l.MOVIE_ID) AS TOTAL FROM MOVIE m INNER JOIN LOCATION l ON m.ID = l.MOVIE_ID GROUP BY l.MOVIE_ID");
+        PreparedStatement statement = connection.prepareStatement("SELECT m.ID, m.TITLE, m.TYPE, m.QUANTITY, COUNT(l.MOVIE_ID) AS TOTAL FROM MOVIE m INNER JOIN LOCATION l ON m.ID = l.MOVIE_ID GROUP BY l.MOVIE_ID ORDER BY TOTAL DESC");
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Movie> movies = new ArrayList<>();
 
@@ -142,7 +142,7 @@ public class Database {
     }
 
     public static ArrayList<Client> getTop10Clients() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT c.ID, c.NAME, c.PHONE, COUNT(l.CLIENT_ID) AS TOTAL FROM CLIENT c INNER JOIN LOCATION l ON c.ID = l.CLIENT_ID GROUP BY l.CLIENT_ID");
+        PreparedStatement statement = connection.prepareStatement("SELECT c.ID, c.NAME, c.PHONE, COUNT(l.CLIENT_ID) AS TOTAL FROM CLIENT c INNER JOIN LOCATION l ON c.ID = l.CLIENT_ID GROUP BY l.CLIENT_ID ORDER BY TOTAL DESC");
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Client> clients = new ArrayList<>();
 
