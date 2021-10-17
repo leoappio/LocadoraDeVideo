@@ -65,7 +65,7 @@ public class ReportsMenu {
         int totalLocations = shop.getTotalLocations();
         int total24hMovies = shop.getTotal24HoursMovies();
         int total48hMovies = shop.getTotal48HoursMovies();
-        float averageLocations = totalLocations / totalClients;
+        float averageLocations = (float)totalLocations / totalClients;
         float averageLateDays = shop.getAverageLate();
 
         System.out.println("Total de clientes: "+ totalClients);
@@ -73,9 +73,10 @@ public class ReportsMenu {
         System.out.println("Total de locações no mês: "+ totalLocations);
         System.out.println("Filmes 24 Horas: "+ total24hMovies);
         System.out.println("Filmes 48 Horas: "+ total48hMovies);
-        System.out.println("Média de locações por usuário: "+ averageLocations);
-        System.out.println("Média de tempo de atraso na devolução dos filmes (em dias): "+ averageLateDays);
-
+        System.out.printf("Média de locações por usuário: "+ "%.2f",averageLocations);
+        System.out.println();
+        System.out.printf("Média de tempo de atraso na devolução dos filmes (em dias): "+ "%.2f", averageLateDays);
+        System.out.println();
         System.out.println();
         System.out.println("10 FILMES MAIS LOCADOS:");
         ArrayList<Movie> movies = shop.getTop10Movies();

@@ -92,7 +92,7 @@ public class Database {
             totalLateDays += lateDays;
             totalLocations++;
         }
-        average = totalLateDays / totalLocations;
+        average = (float)totalLateDays / totalLocations;
         return average;
     }
 
