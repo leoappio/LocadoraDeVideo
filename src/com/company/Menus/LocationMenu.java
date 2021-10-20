@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+//classe que lida com todas as interações do usuario com o menu de movimentações
 public class LocationMenu {
     public static Scanner reader = new Scanner(System.in);
 

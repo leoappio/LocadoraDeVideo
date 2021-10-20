@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//classe que lida com todas as interações do usuario com o menu dos relatórios
 public class ReportsMenu {
     public static Scanner reader = new Scanner(System.in);
 
