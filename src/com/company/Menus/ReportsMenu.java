@@ -4,7 +4,6 @@ import com.company.models.Client;
 import com.company.models.Movie;
 import com.company.models.VideoRentalShop;
 import com.company.screen.Screen;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;

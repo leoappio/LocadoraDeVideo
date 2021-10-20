@@ -1,11 +1,8 @@
 package com.company.models;
 
 import com.company.database.Database;
-
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class VideoRentalShop {
     public ArrayList<Client> clients;

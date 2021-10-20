@@ -1,6 +1,5 @@
 package com.company.screen;
 
-import java.io.IOException;
 
 //classe que lida com os prints dos menus
 public class Screen {

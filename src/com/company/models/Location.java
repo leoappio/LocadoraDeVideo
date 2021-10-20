@@ -1,6 +1,5 @@
 package com.company.models;
 
-import java.util.Date;
 
 public class Location {
     public int locationId;
