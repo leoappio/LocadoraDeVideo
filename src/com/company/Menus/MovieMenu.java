@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//classe que lida com todas as interações do usuario com o menu dos filmes
 public class MovieMenu {
     public static Scanner reader = new Scanner(System.in);
 
@@ -53,11 +54,15 @@ public class MovieMenu {
         String quantityString = reader.nextLine();
         int quantity = Integer.parseInt(quantityString);
 
-        Movie movie = new Movie(title,type,quantity);
-        System.out.println("Cadastrando filme...");
-        Database.insertMovie(movie);
+        if(confirmOperation()){
+            Movie movie = new Movie(title,type,quantity);
+            System.out.println("Cadastrando filme...");
+            Database.insertMovie(movie);
 
-        System.out.println("Filme cadastrado com sucesso!");
+            System.out.println("Filme cadastrado com sucesso!");
+        }else{
+            System.out.println("Operação Cancelada!");
+        }
         returnToMenu();
     }
 
@@ -120,8 +125,12 @@ public class MovieMenu {
 
     public static void deleteMovie() throws SQLException {
         Movie movieToDelete = chooseMovie("apagar");
-        Database.deleteMovie(movieToDelete.id);
-        System.out.print("Filme apagado com sucesso!");
+        if(confirmOperation()){
+            Database.deleteMovie(movieToDelete.id);
+            System.out.println("Filme apagado com sucesso!");
+        }else{
+            System.out.println("Operação Cancelada!");
+        }
         returnToMenu();
     }
 
@@ -136,8 +145,13 @@ public class MovieMenu {
             if(choice.equals("1")){
                 System.out.print("Digite o novo titulo: ");
                 String newTitle = reader.nextLine();
-                movieToEdit.setTitle(newTitle);
-                Database.updateMovie(movieToEdit);
+                if(confirmOperation()){
+                    movieToEdit.setTitle(newTitle);
+                    Database.updateMovie(movieToEdit);
+                    System.out.println("Filme editado com sucesso");
+                }else{
+                    System.out.println("Operação Cancelada!");
+                }
                 break;
             }else if(choice.equals("2")){
                 System.out.println("[1] - Devolução em 24 Horas");
@@ -154,21 +168,31 @@ public class MovieMenu {
                         System.out.println("Escolha inválida, digite novamente");
                     }
                 }
-                movieToEdit.setType(newType);
-                Database.updateMovie(movieToEdit);
+
+                if(confirmOperation()){
+                    movieToEdit.setType(newType);
+                    Database.updateMovie(movieToEdit);
+                    System.out.println("Filme editado com sucesso");
+                }else{
+                    System.out.println("Operação Cancelada!");
+                }
                 break;
             }else if(choice.equals("3")){
                 System.out.print("Digite a nova quantidade: ");
                 String newQuantityString = reader.nextLine();
                 int newQuantity = Integer.parseInt(newQuantityString);
-                movieToEdit.setQuantity(newQuantity);
-                Database.updateMovie(movieToEdit);
+                if(confirmOperation()){
+                    movieToEdit.setQuantity(newQuantity);
+                    Database.updateMovie(movieToEdit);
+                    System.out.println("Filme editado com sucesso");
+                }else{
+                    System.out.println("Operação Cancelada!");
+                }
                 break;
             }else{
                 System.out.println("Escolha inválida, escolha novamente");
             }
         }
-        System.out.println("Filme editado com sucesso");
         returnToMenu();
     }
 
@@ -178,5 +202,14 @@ public class MovieMenu {
         reader.nextLine();
         Screen.clear();
         Screen.showMovieRegistration();
+    }
+
+    public static boolean confirmOperation() {
+        System.out.println("Deseja confirmar a operação? [S/N]");
+        String choiceString = reader.nextLine();
+        if (choiceString.equalsIgnoreCase("S")) {
+            return true;
+        }
+        return false;
     }
 }

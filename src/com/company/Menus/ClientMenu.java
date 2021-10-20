@@ -38,11 +38,16 @@ public class ClientMenu {
         System.out.print("Digite o telefone do cliente: ");
         String phone = reader.nextLine();
 
-        Client client = new Client(name,phone);
-        System.out.println("Cadastrando cliente...");
-        Database.insertClient(client);
+        if(confirmOperation()){
+            Client client = new Client(name,phone);
+            System.out.println("Cadastrando cliente...");
+            Database.insertClient(client);
+            System.out.println("Cliente cadastrado com sucesso!");
 
-        System.out.println("Cliente cadastrado com sucesso!");
+        }else{
+            System.out.println("Operação Cancelada!");
+        }
+
         returnToMenu();
     }
 
@@ -61,17 +66,14 @@ public class ClientMenu {
 
     public static void deleteClient() throws SQLException {
         Client clientToDelete = chooseClient("apagar");
-        Database.deleteClient(clientToDelete.id);
-        System.out.print("Cliente apagado com sucesso!");
-        returnToMenu();
-    }
 
-    public static void returnToMenu(){
-        System.out.println();
-        System.out.println("Aperte enter para voltar ao menu");
-        reader.nextLine();
-        Screen.clear();
-        Screen.showClientMenu();
+        if(confirmOperation()){
+            Database.deleteClient(clientToDelete.id);
+            System.out.println("Cliente apagado com sucesso!");
+        }else{
+            System.out.println("Operação cancelada!");
+        }
+        returnToMenu();
     }
 
     public static void editClient() throws SQLException {
@@ -84,21 +86,30 @@ public class ClientMenu {
             if(choice.equals("1")){
                 System.out.print("Digite o novo nome: ");
                 String newName = reader.nextLine();
-                clientToEdit.setName(newName);
-                Database.updateClient(clientToEdit);
+                if(confirmOperation()){
+                    clientToEdit.setName(newName);
+                    Database.updateClient(clientToEdit);
+                    System.out.println("Cliente editado com sucesso");
+                }else{
+                    System.out.println("Operação Cancelada!");
+                }
                 break;
             }else if(choice.equals("2")){
                 System.out.print("Digite o novo telefone: ");
                 String newPhone = reader.nextLine();
 
-                clientToEdit.setPhone(newPhone);
-                Database.updateClient(clientToEdit);
+                if(confirmOperation()){
+                    clientToEdit.setPhone(newPhone);
+                    Database.updateClient(clientToEdit);
+                    System.out.println("Cliente editado com sucesso");
+                }else{
+                    System.out.println("Operação Cancelada!");
+                }
                 break;
             }else{
                 System.out.println("Escolha inválida, escolha novamente");
             }
         }
-        System.out.println("Cliente editado com sucesso");
         returnToMenu();
     }
 
@@ -136,4 +147,20 @@ public class ClientMenu {
 
     }
 
+    public static void returnToMenu(){
+        System.out.println();
+        System.out.println("Aperte enter para voltar ao menu");
+        reader.nextLine();
+        Screen.clear();
+        Screen.showClientMenu();
+    }
+
+    public static boolean confirmOperation(){
+        System.out.println("Deseja confirmar a operação? [S/N]");
+        String choiceString = reader.nextLine();
+        if(choiceString.equalsIgnoreCase("S")){
+            return true;
+        }
+        return false;
+    }
 }
