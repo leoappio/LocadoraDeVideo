@@ -57,35 +57,33 @@ public class LocationMenu {
     public static void devolution() throws SQLException {
         Client client = ClientMenu.chooseClient("devolver um filme");
         ArrayList<Movie> movies = Database.getMoviesFromClientId(client.id);
-
-        if (confirmOperation()) {
-            if (movies.size() > 0) {
-                Movie movieToReturn = chooseMovieToReturn(movies);
-                if (movieToReturn.type == 1) {
-                    System.out.println("Este filme era pra ser devolvido em 24H, ele está atrasado?(S/N)");
-                } else {
-                    System.out.println("Este filme era pra ser devolvido em 48H, ele está atrasado? (S/N)");
-                }
-                String choice = reader.nextLine();
-                int lateDays = 0;
-                if (choice.equalsIgnoreCase("S")) {
-                    System.out.println("Quantos dias ele está atrasado?");
-                    String lateDaysString = reader.nextLine();
-                    lateDays = Integer.parseInt(lateDaysString);
-                }
+        if (movies.size() > 0) {
+            Movie movieToReturn = chooseMovieToReturn(movies);
+            if (movieToReturn.type == 1) {
+                System.out.println("Este filme era pra ser devolvido em 24H, ele está atrasado?(S/N)");
+            } else {
+                System.out.println("Este filme era pra ser devolvido em 48H, ele está atrasado? (S/N)");
+            }
+            String choice = reader.nextLine();
+            int lateDays = 0;
+            if (choice.equalsIgnoreCase("S")) {
+                System.out.println("Quantos dias ele está atrasado?");
+                String lateDaysString = reader.nextLine();
+                lateDays = Integer.parseInt(lateDaysString);
+            }
+            if (confirmOperation()) {
                 Location location = Database.getActualLocationByClientAndMovieId(client.id, movieToReturn.id);
                 location.setLateDays(lateDays);
                 location.setReturned("yes");
-
                 Database.updateLocation(location);
                 movieToReturn.increaseQuantity();
                 Database.updateMovie(movieToReturn);
                 System.out.println("Devolução Realizada!");
             } else {
-                System.out.println("Este cliente não tem nenhum filme alugado!");
+                System.out.println("Operação Cancelada!");
             }
         } else {
-            System.out.println("Operação Cancelada!");
+            System.out.println("Este cliente não tem nenhum filme alugado!");
         }
         returnToMenu();
     }
